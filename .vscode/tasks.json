@@ -32,6 +32,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "${workspaceFolder}/src/main.cpp", // Who will be compiled
+                "${workspaceFolder}/src/particle.cpp",
                 "-o",
                 "${workspaceFolder}\\build\\main.exe", // Who that who will be compiled will compile into
                 "-I",
