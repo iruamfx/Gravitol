@@ -3,7 +3,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build selected active file",
-            "command": "C:\\MinGW\\bin\\g++.exe",
+            "command": "C:\\MinGW\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "${file}",
@@ -28,7 +28,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build project structured",
-            "command": "C:\\MinGW\\bin\\g++.exe",
+            "command": "C:\\MinGW\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "${workspaceFolder}/src/main.cpp", // Who will be compiled
@@ -37,6 +37,10 @@
                 "${workspaceFolder}\\build\\main.exe", // Who that who will be compiled will compile into
                 "-I",
                 "${workspaceFolder}\\include", 
+                "-L", "${workspaceFolder}/libs",
+                "-lsfml-graphics", // will search for libsfml-graphics.a or libsfml-graphics.dll.a
+                "-lsfml-window",
+                "-lsfml-system",
                 "-g", // debug
             ],
             "options": {

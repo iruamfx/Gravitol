@@ -11,17 +11,25 @@ Vec2 Vec2::operator/(float scalar) const { return { x / scalar, y / scalar }; }
 void Vec2::print() const {std::cout << "(" << x << ", " << y << ")\n";}
 
 void Particle::update(float dt) {
-    Vec2 nextPrevPosTemp = position; // Is not freed since it will be continuously used
-    position = position * 2.0f - previousPosition + acceleration * (0.5 * dt * dt);
-    // ^ Equals pos = pos + (pos - prevPos) + accel * pow(dt, 2). 
-    // The middle term is numerically equal to velocity * dt - which is defined in the classical formula -, since velocity = pos - prevPos / dt.
-    // It is common practice to omit the denominator 2 in accel * dt^2 for performance. Performance mode TBD
-    previousPosition = nextPrevPosTemp;
-    acceleration = {0.0f, 0.0f}; // reset acceleration
+    pos += velocity * dt + accel * (0.5 * pow(dt, 2));
+
+    velocity += accel * dt;
+    // Constant acceleration.
+
 }
 
-Vec2 Particle::getVelocity(float dt) const {
-    return (position - previousPosition) / dt;
+void Particle::update(float dt, const Vec2& naccel) {
+    pos += velocity * dt + accel * (0.5 * pow(dt, 2));
+
+    velocity += (accel + naccel) * dt * 0.5f;
+    // Velocity is the average between the increment of both accelerations for a given t (dt)
+    // Average smoothens the transition between accelerations for low-jerks. High jerks require another algorithm
+
+    accel = naccel;
+}
+
+void Particle::applyForce(const Vec2& force) {
+    accel += force * (1.0f / mass); // Newton's second law. F = M * A
 }
 
 #endif
